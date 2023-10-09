@@ -1,0 +1,34 @@
+<h1>Find Your Flight:</h1>
+
+<%= form_with(model: @flight, method: "get") do |f|%>
+      <div>
+      <%= f.label :origin_id, "Departure Airport:" %><br />
+      <%= f.select(:origin_id, @airport_options) %>
+      </div>
+      <div>
+      <%= f.label :destination_id, "Arrival Airport:" %><br />
+      <%= f.select(:destination_id, @airport_options) %>
+      </div>
+      <div>
+      <%= f.label :passengers, "Number of Passengers:" %><br />
+      <%= f.select :passengers, ["1", "2", "3", "4"] %>
+      </div>
+      <div>
+      <%= f.label :start, "Date:" %><br />
+      <%= f.select :start, @flight_dates %>
+      </div>
+      <%= f.submit 'Submit'%>
+<% end %>
+
+<% if @search_results.empty? && request.query_string.present? %>
+<h2>Your search returned empty, please try another search.</h2>
+<% else %>
+<h2>Select Your Desired Flight Below:</h2>
+<%=form_with(url: new_booking_path, method: "get") do |f|%>
+<% @search_results.each do |flight| %>
+<%= f.radio_button :flight_id, flight.id %> <%="#{flight.origin.code} to #{flight.destination.code} departing #{flight.start.to_date.to_s}"%><br />
+<%= f.hidden_field :passengers, value: @num_passengers %>
+  <% end %>
+  <%= f.submit 'Select Flight'%>
+  <% end %>
+  <% end %>

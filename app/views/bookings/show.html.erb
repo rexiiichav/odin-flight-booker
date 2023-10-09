@@ -1,0 +1,8 @@
+<h1><%= @booking %></h1>
+<%= "Flight from #{@booking.flight.origin.code} to #{@booking.flight.destination.code} on #{@booking.flight.start}"%>
+<% @booking.passengers.each do |p| %>
+  <ul>
+  <li><%= p.name %></li>
+  </ul>
+<% end %>
+

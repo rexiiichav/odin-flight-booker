@@ -1,0 +1,16 @@
+<%= form_with(model: @booking) do |form| %>
+<%= "Flight from #{@flight.origin.code} to #{@flight.destination.code} on #{@flight.start}"%>
+    <ul>
+    <%= form.hidden_field :flight_id, value: @flight.id %>
+    <%= form.fields_for :passengers do |pass_form| %>
+      <li>
+        <%= pass_form.label :name %>
+        <%= pass_form.text_area :name %>
+
+        <%= pass_form.label :email %>
+        <%= pass_form.email_field :email %>
+      </li>
+    <% end %>
+  </ul>
+  <%= form.submit 'Submit'%>
+<% end %>
